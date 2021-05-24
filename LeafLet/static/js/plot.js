@@ -104,6 +104,7 @@ d3.json(queryUrl, function(data) {
     
     };
     
-
+    // add legend to map
+    legend.addTo(myMap)
     
 });
