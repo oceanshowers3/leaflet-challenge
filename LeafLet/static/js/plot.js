@@ -57,26 +57,54 @@ d3.json(queryUrl, function(data) {
     }
     // radiuses for magnitude sizes
     function mapRadius(mag) {
-      if (mag === 0) {
-        return 1;
-      }
-  
-      return mag * 4;
+        if (mag === 0) {
+            return 1;
+        }
+        
+        return mag * 4;     // adjust so it shows nicely on map
     }
     
-  
-  
+    // geoJson layer
     L.geoJson(data, {
-  
-      pointToLayer: function(feature, latlng) {
-        return L.circleMarker(latlng);
-      },
-  
-      style: mapStyle,
-  
-      onEachFeature: function(feature, layer) {
-        layer.bindPopup("Magnitude: " + feature.properties.mag + "<br>Location: " + feature.properties.place);
-  
-      }
+
+        // make circles
+        pointToLayer: function(feature, coord) {
+            return L.circleMarker(coord);
+        },
+    
+        // style circles
+        style: mapStyle,
+    
+        // bind popup to markers
+        onEachFeature: function(feature, layer) {
+            layer.bindPopup("Magnitude: " + feature.properties.mag + "<br>Location: " + feature.properties.place);
+        }
     }).addTo(myMap);
-  
+
+    // add legend
+    var legend = L.control({
+        position: "bottomright"
+    });
+    
+    // add details to legend
+    legend.onAdd = function() {
+        var div = L.DomUtil.create("div", "info legend");
+    
+        var grades = [0, 1, 2, 3, 4, 5];
+        var colors = ["#00cccc", "#00e600", "#8be109", "#ff9900","#ff3300", "#db170d"];
+    
+    
+      // loop thru colors to attach to grades
+        for (var i = 0; i<grades.length; i++) {
+            div.innerHTML +=
+            "<i style='background: " + colors[i] + "'></i> " +
+            grades[i] + (grades[i + 1] ? "&ndash;" + grades[i + 1] + "<br>" : "+");
+        }
+        return div;
+    
+    };
+    
+    // add legend to map
+    legend.addTo(myMap)
+    
+});
