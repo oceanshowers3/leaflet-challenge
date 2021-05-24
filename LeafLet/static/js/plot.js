@@ -1,7 +1,7 @@
 // Create map
 var myMap = L.map("map", {
     center: [
-        39.9525, -​75.1652
+        58.3019, -134.4197
     ],
     zoom: 5,
 });
@@ -18,3 +18,7 @@ var streetmap = L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}
 
 // Add layers to map
 streetmap.addTo(myMap);
+
+ // API endpoint
+var queryUrl = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson";
+
